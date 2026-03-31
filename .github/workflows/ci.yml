@@ -1,0 +1,40 @@
+name: CI — FintechStocks
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+
+  validate-scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate sync script (bash -n)
+        run: bash -n scripts/sync-market-data.sh
+      - name: Validate install script (bash -n)
+        run: bash -n scripts/install-sync.sh
+      - name: Check cache dir is outside cwd
+        run: |
+          # Ensure the script writes to ~/.cache, not inside project
+          grep -q 'HOME/.cache/fintechstocks\|XDG_CACHE_HOME' scripts/sync-market-data.sh
+          echo "Cache path check passed"
+      - name: Dry-run sync script
+        run: |
+          export FINTECH_API_KEY=test
+          bash scripts/sync-market-data.sh || true
+          ls -la ~/.cache/fintechstocks/ || echo "Cache dir not created (expected without API)"

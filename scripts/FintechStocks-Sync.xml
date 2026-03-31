@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-16"?>
+<!--
+  FintechStocks Market Sync - Task Scheduler Definition
+  Import with:
+    schtasks /create /xml scripts\FintechStocks-Sync.xml /tn "FintechStocks\MarketSync"
+  Runs every 15 minutes on weekdays between 09:00 and 16:30 (market hours).
+  Logs to: %LOCALAPPDATA%\fintechstocks\cache\logs\
+-->
+<Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
+  <RegistrationInfo>
+    <Date>2024-01-01T00:00:00</Date>
+    <Author>FintechStocks</Author>
+    <Description>Syncs live market data snapshots to the local cache every 15 minutes during trading hours. Writes to %LOCALAPPDATA%\fintechstocks\cache\</Description>
+    <URI>\FintechStocks\MarketSync</URI>
+  </RegistrationInfo>
+  <Triggers>
+    <CalendarTrigger>
+      <StartBoundary>2024-01-01T09:00:00</StartBoundary>
+      <EndBoundary>2099-01-01T00:00:00</EndBoundary>
+      <Enabled>true</Enabled>
+      <ScheduleByWeek>
+        <DaysOfWeek>
+          <Monday />
+          <Tuesday />
+          <Wednesday />
+          <Thursday />
+          <Friday />
+        </DaysOfWeek>
+        <WeeksInterval>1</WeeksInterval>
+      </ScheduleByWeek>
+      <Repetition>
+        <Interval>PT15M</Interval>
+        <Duration>PT7H30M</Duration>
+        <StopAtDurationEnd>false</StopAtDurationEnd>
+      </Repetition>
+    </CalendarTrigger>
+  </Triggers>
+  <Principals>
+    <Principal id="Author">
+      <LogonType>InteractiveToken</LogonType>
+      <RunLevel>LeastPrivilege</RunLevel>
+    </Principal>
+  </Principals>
+  <Settings>
+    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
+    <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>
+    <AllowHardTerminate>true</AllowHardTerminate>
+    <StartWhenAvailable>true</StartWhenAvailable>
+    <RunOnlyIfNetworkAvailable>true</RunOnlyIfNetworkAvailable>
+    <IdleSettings>
+      <StopOnIdleEnd>false</StopOnIdleEnd>
+      <RestartOnIdle>false</RestartOnIdle>
+    </IdleSettings>
+    <ExecutionTimeLimit>PT5M</ExecutionTimeLimit>
+    <Enabled>true</Enabled>
+    <Hidden>false</Hidden>
+    <RunOnlyIfIdle>false</RunOnlyIfIdle>
+    <WakeToRun>false</WakeToRun>
+    <Priority>7</Priority>
+  </Settings>
+  <Actions Context="Author">
+    <Exec>
+      <Command>%USERPROFILE%\FintechStocks\scripts\sync-market-data.bat</Command>
+      <WorkingDirectory>%USERPROFILE%\FintechStocks</WorkingDirectory>
+    </Exec>
+  </Actions>
+</Task>

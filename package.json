@@ -1,0 +1,35 @@
+{
+  "name": "fintechstocks",
+  "version": "1.0.0",
+  "description": "Real-time stock tracking and portfolio analytics platform",
+  "main": "src/index.js",
+  "homepage": "https://fintechstocks.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/FintechStocks.git"
+  },
+  "scripts": {
+    "dev": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "jest --coverage",
+    "lint": "eslint src/",
+    "format": "prettier --write src/",
+    "sync": "bash scripts/sync-market-data.sh",
+    "sync:install": "bash scripts/install-sync.sh",
+    "cache:show": "ls -lh ${XDG_CACHE_HOME:-$HOME/.cache}/fintechstocks/",
+    "cache:clear": "rm -rf ${XDG_CACHE_HOME:-$HOME/.cache}/fintechstocks/market-data/"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "axios": "^1.6.0",
+    "recharts": "^2.10.0",
+    "date-fns": "^3.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "@testing-library/react": "^14.0.0"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.exclude": { "node_modules": true, "dist": true },
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "project.name": "FintechStocks",
+  "project.cacheDir": "~/.cache/fintechstocks",
+  "project.syncScript": "scripts/sync-market-data.sh",
+  "rest-client.environmentVariables": {
+    "production": {
+      "baseUrl": "https://api.fintechstocks.io/v1"
+    },
+    "local": {
+      "baseUrl": "http://localhost:3001/v1"
+    }
+  },
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#0f4c81",
+    "titleBar.activeForeground": "#ffffff",
+    "statusBar.background": "#1a6bb5"
+  },
+  "window.title": "FintechStocks — ${activeEditorShort}"
+}

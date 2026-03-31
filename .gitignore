@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+*.log
+.DS_Store
+coverage/
+# Note: cache lives in ~/.cache/fintechstocks/ — not in project dir
